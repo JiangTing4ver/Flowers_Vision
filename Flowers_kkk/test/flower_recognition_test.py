@@ -18,6 +18,8 @@ import requests
 from io import BytesIO
 import subprocess
 import pkg_resources
+# TODO: 检查并安装必要的依赖包.---pytoch 没有安装（maybe）
+self._install_dependencies()
 
 # 添加当前目录到Python路径，以便导入exif_test
 current_dir = os.path.dirname(os.path.abspath(__file__))

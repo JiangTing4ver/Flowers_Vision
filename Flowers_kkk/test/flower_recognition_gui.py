@@ -81,12 +81,33 @@ class FlowerRecognitionThread(QThread):
                 # 发送状态更新
                 self.status.emit(f"正在处理: {os.path.basename(file_path)}")
                 
-                # 处理图片
-                result = self.recognizer.process_image(file_path)
-                
-                # 发送文件处理完成信号
-                if result:
-                    self.file_processed.emit(file_path, result)
+                # 处理图片 - 即使花卉识别失败也应获取EXIF信息
+                try:
+                    # 尝试正常处理
+                    result = self.recognizer.process_image(file_path)
+                    
+                    # 如果result为None，创建一个只包含EXIF信息的结果
+                    if result is None:
+                        result = {'recognition': None}
+                        # 直接从ExifReader获取EXIF信息
+                        from exif_test import ExifReader
+                        exif_reader = ExifReader(file_path)
+                        result['exif'] = exif_reader.get_all_info()
+                        print(f"无法进行花卉识别，但成功提取了EXIF信息: {os.path.basename(file_path)}")
+                    
+                    # 发送文件处理完成信号
+                    if result:
+                        self.file_processed.emit(file_path, result)
+                except Exception as e:
+                    # 即使处理单个文件失败，也继续处理其他文件
+                    print(f"处理文件时出错: {str(e)}")
+                    # 创建一个错误结果
+                    error_result = {
+                        'recognition': None,
+                        'exif': None,
+                        'error': str(e)
+                    }
+                    self.file_processed.emit(file_path, error_result)
                 
                 # 更新进度
                 progress = int((i + 1) / total_files * 100)
@@ -421,20 +442,41 @@ class FlowerRecognitionApp(QMainWindow):
         self.select_file_button.setEnabled(True)
         self.select_dir_button.setEnabled(True)
         self.stop_button.setEnabled(False)
+        # 即使没有识别结果，也启用导出按钮（可以导出EXIF信息）
         self.export_button.setEnabled(True)
         self.status_label.setText('处理完成')
         self.statusBar.showMessage('处理完成')
         
-        # 更新整理结果树
-        self.update_organization_tree()
+        # 更新整理结果树（如果有结果）
+        if results:
+            self.update_organization_tree()
+        else:
+            # 创建一个简单的整理结果，显示处理的文件数量
+            self.organization_tree.clear()
+            root = QTreeWidgetItem(['处理结果', str(len(self.current_results)), ''])
+            self.organization_tree.addTopLevelItem(root)
         
         # 显示统计信息
-        total_flowers = sum(len(photos) for photos in results.values())
-        total_classes = len(results)
-        QMessageBox.information(self, '处理完成', 
-                              f'共处理完成 {len(self.current_results)} 张图片\n'  
-                              f'识别到 {total_flowers} 张花卉照片\n' 
-                              f'识别出 {total_classes} 种花卉')
+        total_files = len(self.current_results)
+        
+        # 尝试计算花卉识别的统计信息
+        try:
+            total_flowers = sum(len(photos) for photos in results.values())
+            total_classes = len(results)
+            message = f'共处理完成 {total_files} 张图片\n'
+            
+            if total_flowers > 0:
+                message += f'识别到 {total_flowers} 张花卉照片\n'
+                message += f'识别出 {total_classes} 种花卉\n'
+            else:
+                message += '花卉识别功能暂时不可用\n'
+                message += 'EXIF信息已成功提取'
+        except:
+            message = f'共处理完成 {total_files} 张图片\n'
+            message += '花卉识别功能暂时不可用\n'
+            message += 'EXIF信息已成功提取'
+        
+        QMessageBox.information(self, '处理完成', message)
     
     def on_process_error(self, error_message):
         """处理错误回调"""
@@ -467,26 +509,37 @@ class FlowerRecognitionApp(QMainWindow):
         """更新识别结果和EXIF信息显示"""
         # 更新识别结果
         recognition_text = "=== 花卉识别结果 ===\n\n"
-        if result and result['recognition']:
-            main_pred = result['recognition']['main_prediction']
-            recognition_text += f"主要识别结果: {main_pred['class']}\n"
-            recognition_text += f"置信度: {main_pred['confidence']:.2%}\n\n"
-            
-            recognition_text += "前3个预测结果:\n"
-            for i, pred in enumerate(result['recognition']['all_predictions'], 1):
-                recognition_text += f"{i}. {pred['class']}: {pred['confidence']:.2%}\n"
+        
+        # 检查是否有错误信息
+        if result.get('error'):
+            recognition_text += f"处理过程中出现错误:\n{result['error']}\n\n"
+            recognition_text += "花卉识别功能暂时不可用，但EXIF信息查看仍可正常使用。"
+        elif result and result.get('recognition'):
+            if 'main_prediction' in result['recognition']:
+                main_pred = result['recognition']['main_prediction']
+                recognition_text += f"主要识别结果: {main_pred['class']}\n"
+                recognition_text += f"置信度: {main_pred['confidence']:.2%}\n\n"
+                
+                if 'all_predictions' in result['recognition']:
+                    recognition_text += "前3个预测结果:\n"
+                    for i, pred in enumerate(result['recognition']['all_predictions'], 1):
+                        recognition_text += f"{i}. {pred['class']}: {pred['confidence']:.2%}\n"
+            else:
+                recognition_text += "花卉识别功能暂时不可用\n"
         else:
             recognition_text += "未能识别出花卉\n"
+            recognition_text += "注意：PyTorch可能未正确安装或存在兼容性问题\n"
+            recognition_text += "EXIF信息查看功能仍可正常使用"
         
         self.recognition_text.setText(recognition_text)
         
         # 更新EXIF信息
         exif_text = "=== EXIF信息 ===\n\n"
-        if result and result['exif']:
+        if result and result.get('exif'):
             exif = result['exif']
             
             # 设备信息
-            if exif['device']:
+            if exif.get('device'):
                 device = exif['device']
                 exif_text += "设备信息:\n"
                 if device.get('camera_model'):
@@ -495,7 +548,7 @@ class FlowerRecognitionApp(QMainWindow):
                     exif_text += f"  制造商: {device['manufacturer']}\n"
             
             # 拍摄时间
-            if exif['datetime'] != '未知':
+            if exif.get('datetime') and exif['datetime'] != '未知':
                 datetime_str = exif['datetime']
                 # 处理IfdTag对象
                 if hasattr(datetime_str, 'printable'):
@@ -505,10 +558,11 @@ class FlowerRecognitionApp(QMainWindow):
                 exif_text += f"\n拍摄时间: {datetime_str}\n"
             
             # 图片尺寸
-            exif_text += f"\n图片尺寸: {exif['size']}\n"
+            if exif.get('size'):
+                exif_text += f"\n图片尺寸: {exif['size']}\n"
             
             # 位置信息
-            if exif['location']['has_location']:
+            if exif.get('location') and exif['location'].get('has_location'):
                 location = exif['location']
                 exif_text += "\n位置信息:\n"
                 if location.get('formatted_address'):
