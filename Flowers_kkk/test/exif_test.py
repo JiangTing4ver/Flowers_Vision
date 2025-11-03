@@ -253,7 +253,7 @@ class ExifReader:
         处理图片并打印所有EXIF信息
         
         Args:
-            image_path: 图片文件路径
+            image_path: 图片文件绝对路径
         """
         print(f"尝试读取文件: {image_path}")
         if self.load_exif(image_path):
