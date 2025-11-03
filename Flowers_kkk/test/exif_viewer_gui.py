@@ -14,8 +14,6 @@ from PyQt5.QtCore import Qt, QSize
 # 添加当前目录的父目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# 直接从当前目录导入exif_test模块
-import exif_test
 from exif_test import ExifReader
 
 
@@ -29,7 +27,7 @@ class ExifViewer(QMainWindow):
         super().__init__()
         self.init_ui()
         self.exif_reader = ExifReader()
-        self.setup_console_redirect()
+        self.setup_console_redirect()   # 重定向标准输出到文本框
     
     def init_ui(self):
         """初始化用户界面"""
@@ -126,6 +124,7 @@ class ExifViewer(QMainWindow):
                 # 滚动到底部
                 self.text_edit.moveCursor(self.text_edit.textCursor().End)
             
+            # 实现flush方法以支持print函数的flush参数
             def flush(self):
                 pass
         
