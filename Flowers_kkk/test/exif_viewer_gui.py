@@ -9,12 +9,44 @@ from PyQt5.QtWidgets import (
     QFrame, QSizePolicy
 )
 from PyQt5.QtGui import QPixmap, QFont, QTextOption
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, QThread, pyqtSignal
 
 # 添加当前目录的父目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from exif_test import ExifReader
+
+
+class ExifProcessThread(QThread):
+    """
+    EXIF处理线程类，用于在后台处理图片EXIF信息提取
+    """
+    # 信号定义
+    finished = pyqtSignal()  # 处理完成信号
+    error = pyqtSignal(str)  # 错误信号
+    
+    def __init__(self, reader, file_path):
+        """初始化处理线程
+        
+        Args:
+            reader: ExifReader实例
+            file_path: 要处理的图片文件路径
+        """
+        super().__init__()
+        self.reader = reader
+        self.file_path = file_path
+    
+    def run(self):
+        """线程运行方法，在后台处理EXIF信息"""
+        try:
+            # 处理图片EXIF信息
+            print(f"正在处理文件: {self.file_path}")
+            self.reader.process_image(self.file_path)
+            # 发送完成信号
+            self.finished.emit()
+        except Exception as e:
+            # 发送错误信号
+            self.error.emit(str(e))
 
 
 class ExifViewer(QMainWindow):
@@ -28,6 +60,7 @@ class ExifViewer(QMainWindow):
         self.init_ui()
         self.exif_reader = ExifReader()
         self.setup_console_redirect()   # 重定向标准输出到文本框
+        self.process_thread = None  # 初始化处理线程为None
     
     def init_ui(self):
         """初始化用户界面"""
@@ -95,8 +128,15 @@ class ExifViewer(QMainWindow):
         self.exif_text.setLineWrapMode(QTextEdit.WidgetWidth)
         self.exif_text.setWordWrapMode(QTextOption.WordWrap)
         
+        # 添加加载状态指示器
+        self.loading_label = QLabel('处理中...')
+        self.loading_label.setVisible(False)
+        self.loading_label.setAlignment(Qt.AlignCenter)
+        self.loading_label.setStyleSheet('color: #0066cc; font-style: italic;')
+        
         # 添加到右侧布局
         right_layout.addWidget(exif_label)
+        right_layout.addWidget(self.loading_label)
         right_layout.addWidget(self.exif_text)
         
         # 添加左右框架到分割器
@@ -142,19 +182,45 @@ class ExifViewer(QMainWindow):
         )
         
         if file_path:
-            try:
-                # 清空之前的内容
-                self.exif_text.clear()
-                
-                # 显示图片预览
-                self.display_image_preview(file_path)
-                
-                # 使用ExifReader类处理图片
-                print(f"正在处理文件: {file_path}")
-                self.exif_reader.process_image(file_path)
-                
-            except Exception as e:
-                QMessageBox.critical(self, '错误', f'处理图片时出错: {str(e)}')
+            # 检查是否有正在运行的线程，如果有则停止
+            if self.process_thread and self.process_thread.isRunning():
+                self.process_thread.terminate()
+                self.process_thread.wait()
+            
+            # 清空之前的内容
+            self.exif_text.clear()
+            
+            # 显示图片预览（这个操作相对较快，可以在主线程完成）
+            self.display_image_preview(file_path)
+            
+            # 显示加载状态
+            self.loading_label.setVisible(True)
+            self.select_button.setEnabled(False)
+            
+            # 创建并启动处理线程
+            self.process_thread = ExifProcessThread(self.exif_reader, file_path)
+            self.process_thread.finished.connect(self.on_process_finished)
+            self.process_thread.error.connect(self.on_process_error)
+            self.process_thread.start()
+    
+    def on_process_finished(self):
+        """处理完成后的回调"""
+        # 隐藏加载状态
+        self.loading_label.setVisible(False)
+        self.select_button.setEnabled(True)
+    
+    def on_process_error(self, error_message):
+        """处理错误时的回调
+        
+        Args:
+            error_message: 错误信息
+        """
+        # 隐藏加载状态
+        self.loading_label.setVisible(False)
+        self.select_button.setEnabled(True)
+        
+        # 显示错误信息
+        QMessageBox.critical(self, '错误', f'处理图片时出错: {error_message}')
     
     def display_image_preview(self, file_path):
         """显示图片预览"""
@@ -173,9 +239,16 @@ class ExifViewer(QMainWindow):
     
     def clear_all(self):
         """清空所有内容"""
+        # 检查是否有正在运行的线程，如果有则停止
+        if self.process_thread and self.process_thread.isRunning():
+            self.process_thread.terminate()
+            self.process_thread.wait()
+        
         self.exif_text.clear()
         self.image_label.clear()
         self.image_label.setText('图片预览')
+        self.loading_label.setVisible(False)
+        self.select_button.setEnabled(True)
     
     def resizeEvent(self, event):
         """窗口大小改变时重新调整图片预览大小"""
@@ -189,7 +262,12 @@ class ExifViewer(QMainWindow):
         super().resizeEvent(event)
     
     def closeEvent(self, event):
-        """关闭窗口时恢复原始的stdout"""
+        """关闭窗口时恢复原始的stdout并停止线程"""
+        # 检查是否有正在运行的线程，如果有则停止
+        if self.process_thread and self.process_thread.isRunning():
+            self.process_thread.terminate()
+            self.process_thread.wait()
+        
         sys.stdout = self.original_stdout
         event.accept()
 
