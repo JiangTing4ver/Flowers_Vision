@@ -1,0 +1,531 @@
+{
+  "flowers_by_class": {
+    "紫荆": [
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\IMG_20251104_001458.jpg",
+        "filename": "IMG_20251104_001458.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "紫荆",
+            "confidence": "0.018371937796473503",
+            "index": "21"
+          },
+          "all_predictions": [
+            {
+              "class": "紫荆",
+              "confidence": "0.018371937796473503",
+              "index": "21"
+            },
+            {
+              "class": "倒挂金钟",
+              "confidence": "0.017982229590415955",
+              "index": "33"
+            },
+            {
+              "class": "山茶花",
+              "confidence": "0.017857400700449944",
+              "index": "86"
+            }
+          ],
+          "confidence_score": "0.018371937796473503"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:04 00:14:58",
+          "size": "未知x未知",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 59/4]",
+            "raw_lon": "E[113, 49, 113/100]",
+            "decimal_lat": "22.65409722222222",
+            "decimal_lon": "113.81698055555555",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:28.241096",
+        "processing_status": "success"
+      },
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\Vivo.jpg",
+        "filename": "Vivo.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "紫荆",
+            "confidence": "0.019758515059947968",
+            "index": "21"
+          },
+          "all_predictions": [
+            {
+              "class": "紫荆",
+              "confidence": "0.019758515059947968",
+              "index": "21"
+            },
+            {
+              "class": "秋海棠",
+              "confidence": "0.018150484189391136",
+              "index": "36"
+            },
+            {
+              "class": "杜鹃花",
+              "confidence": "0.017524635419249535",
+              "index": "87"
+            }
+          ],
+          "confidence_score": "0.019758515059947968"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:02 14:30:56",
+          "size": "3072x4536",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 1479/100]",
+            "raw_lon": "E[113, 49, 61/50]",
+            "decimal_lat": "22.654108333333333",
+            "decimal_lon": "113.81700555555555",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:29.846861",
+        "processing_status": "success"
+      }
+    ],
+    "蟹爪兰": [
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\花花.jpg",
+        "filename": "花花.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "蟹爪兰",
+            "confidence": "0.02010314166545868",
+            "index": "64"
+          },
+          "all_predictions": [
+            {
+              "class": "蟹爪兰",
+              "confidence": "0.02010314166545868",
+              "index": "64"
+            },
+            {
+              "class": "铁线莲",
+              "confidence": "0.020017655566334724",
+              "index": "93"
+            },
+            {
+              "class": "仙客来",
+              "confidence": "0.019418690353631973",
+              "index": "26"
+            }
+          ],
+          "confidence_score": "0.02010314166545868"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:04 00:12:10",
+          "size": "未知x未知",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 1489/100]",
+            "raw_lon": "E[113, 49, 127/100]",
+            "decimal_lat": "22.65413611111111",
+            "decimal_lon": "113.81701944444444",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:31.512627",
+        "processing_status": "success"
+      }
+    ]
+  },
+  "flowers_by_date": {
+    "2025-11-04": [
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\IMG_20251104_001458.jpg",
+        "filename": "IMG_20251104_001458.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "紫荆",
+            "confidence": "0.018371937796473503",
+            "index": "21"
+          },
+          "all_predictions": [
+            {
+              "class": "紫荆",
+              "confidence": "0.018371937796473503",
+              "index": "21"
+            },
+            {
+              "class": "倒挂金钟",
+              "confidence": "0.017982229590415955",
+              "index": "33"
+            },
+            {
+              "class": "山茶花",
+              "confidence": "0.017857400700449944",
+              "index": "86"
+            }
+          ],
+          "confidence_score": "0.018371937796473503"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:04 00:14:58",
+          "size": "未知x未知",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 59/4]",
+            "raw_lon": "E[113, 49, 113/100]",
+            "decimal_lat": "22.65409722222222",
+            "decimal_lon": "113.81698055555555",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:28.241096",
+        "processing_status": "success"
+      },
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\花花.jpg",
+        "filename": "花花.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "蟹爪兰",
+            "confidence": "0.02010314166545868",
+            "index": "64"
+          },
+          "all_predictions": [
+            {
+              "class": "蟹爪兰",
+              "confidence": "0.02010314166545868",
+              "index": "64"
+            },
+            {
+              "class": "铁线莲",
+              "confidence": "0.020017655566334724",
+              "index": "93"
+            },
+            {
+              "class": "仙客来",
+              "confidence": "0.019418690353631973",
+              "index": "26"
+            }
+          ],
+          "confidence_score": "0.02010314166545868"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:04 00:12:10",
+          "size": "未知x未知",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 1489/100]",
+            "raw_lon": "E[113, 49, 127/100]",
+            "decimal_lat": "22.65413611111111",
+            "decimal_lon": "113.81701944444444",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:31.512627",
+        "processing_status": "success"
+      }
+    ],
+    "2025-11-02": [
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\Vivo.jpg",
+        "filename": "Vivo.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "紫荆",
+            "confidence": "0.019758515059947968",
+            "index": "21"
+          },
+          "all_predictions": [
+            {
+              "class": "紫荆",
+              "confidence": "0.019758515059947968",
+              "index": "21"
+            },
+            {
+              "class": "秋海棠",
+              "confidence": "0.018150484189391136",
+              "index": "36"
+            },
+            {
+              "class": "杜鹃花",
+              "confidence": "0.017524635419249535",
+              "index": "87"
+            }
+          ],
+          "confidence_score": "0.019758515059947968"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:02 14:30:56",
+          "size": "3072x4536",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 1479/100]",
+            "raw_lon": "E[113, 49, 61/50]",
+            "decimal_lat": "22.654108333333333",
+            "decimal_lon": "113.81700555555555",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:29.846861",
+        "processing_status": "success"
+      }
+    ]
+  },
+  "flowers_by_location": {
+    "中国，广东省，宝安区": [
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\IMG_20251104_001458.jpg",
+        "filename": "IMG_20251104_001458.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "紫荆",
+            "confidence": "0.018371937796473503",
+            "index": "21"
+          },
+          "all_predictions": [
+            {
+              "class": "紫荆",
+              "confidence": "0.018371937796473503",
+              "index": "21"
+            },
+            {
+              "class": "倒挂金钟",
+              "confidence": "0.017982229590415955",
+              "index": "33"
+            },
+            {
+              "class": "山茶花",
+              "confidence": "0.017857400700449944",
+              "index": "86"
+            }
+          ],
+          "confidence_score": "0.018371937796473503"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:04 00:14:58",
+          "size": "未知x未知",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 59/4]",
+            "raw_lon": "E[113, 49, 113/100]",
+            "decimal_lat": "22.65409722222222",
+            "decimal_lon": "113.81698055555555",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:28.241096",
+        "processing_status": "success"
+      },
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\Vivo.jpg",
+        "filename": "Vivo.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "紫荆",
+            "confidence": "0.019758515059947968",
+            "index": "21"
+          },
+          "all_predictions": [
+            {
+              "class": "紫荆",
+              "confidence": "0.019758515059947968",
+              "index": "21"
+            },
+            {
+              "class": "秋海棠",
+              "confidence": "0.018150484189391136",
+              "index": "36"
+            },
+            {
+              "class": "杜鹃花",
+              "confidence": "0.017524635419249535",
+              "index": "87"
+            }
+          ],
+          "confidence_score": "0.019758515059947968"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:02 14:30:56",
+          "size": "3072x4536",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 1479/100]",
+            "raw_lon": "E[113, 49, 61/50]",
+            "decimal_lat": "22.654108333333333",
+            "decimal_lon": "113.81700555555555",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:29.846861",
+        "processing_status": "success"
+      },
+      {
+        "file_path": "d:\\00-file\\Flowers\\Flowers_kkk\\test\\example\\花花.jpg",
+        "filename": "花花.jpg",
+        "recognition": {
+          "main_prediction": {
+            "class": "蟹爪兰",
+            "confidence": "0.02010314166545868",
+            "index": "64"
+          },
+          "all_predictions": [
+            {
+              "class": "蟹爪兰",
+              "confidence": "0.02010314166545868",
+              "index": "64"
+            },
+            {
+              "class": "铁线莲",
+              "confidence": "0.020017655566334724",
+              "index": "93"
+            },
+            {
+              "class": "仙客来",
+              "confidence": "0.019418690353631973",
+              "index": "26"
+            }
+          ],
+          "confidence_score": "0.02010314166545868"
+        },
+        "exif": {
+          "device": {
+            "make": "vivo",
+            "model": "vivo X100s"
+          },
+          "datetime": "2025:11:04 00:12:10",
+          "size": "未知x未知",
+          "location": {
+            "has_location": "True",
+            "raw_lat": "N[22, 39, 1489/100]",
+            "raw_lon": "E[113, 49, 127/100]",
+            "decimal_lat": "22.65413611111111",
+            "decimal_lon": "113.81701944444444",
+            "address_info": {
+              "suburb": "福永街道",
+              "city": "宝安区",
+              "state": "广东省",
+              "ISO3166-2-lvl4": "CN-GD",
+              "postcode": "518100",
+              "country": "中国",
+              "country_code": "cn"
+            },
+            "formatted_address": "中国，广东省，宝安区"
+          }
+        },
+        "timestamp": "2025-11-04T00:15:31.512627",
+        "processing_status": "success"
+      }
+    ]
+  },
+  "statistics": {
+    "total_flowers": "3",
+    "flower_classes": [
+      "紫荆",
+      "蟹爪兰"
+    ],
+    "total_classes": "2"
+  },
+  "export_time": "2025-11-04T00:15:31.516099"
+}

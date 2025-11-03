@@ -11,10 +11,6 @@
 
 import os
 import sys
-import torch
-import torch.nn as nn
-import torchvision.transforms as transforms
-from torchvision import models
 from PIL import Image
 import json
 from datetime import datetime
@@ -39,24 +35,27 @@ class FlowerRecognizer:
     
     def __init__(self):
         """初始化花卉识别器"""
-        # 安装必要的依赖
-        self._install_dependencies()
-        
         # 初始化EXIF读取器
         self.exif_reader = ExifReader()
-        # 初始化模型
-        self.model = None
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         # 花卉类别映射 - 使用真实的Oxford 102花卉数据集类别
         self.class_names = self._load_class_names()
         # 花卉分类结果存储
         self.flowers_collection = {}
+        # 模型相关变量
+        self.model = None
+        self.device = None
         # 模型是否已加载
         self.model_loaded = False
+        # PyTorch是否可用
+        self._torch_available = False
+        # 延迟加载模型，避免在导入时就尝试加载PyTorch
+        # 模型将在实际需要使用时才加载
+        print("花卉识别器初始化完成，模型将在首次使用时加载")
     
     def _install_dependencies(self):
         """检查并安装必要的依赖包"""
-        required_packages = ['torch', 'torchvision', 'Pillow', 'requests']
+        # 注意：PyTorch相关依赖将在load_model时检查和安装
+        required_packages = ['Pillow', 'requests']
         
         for package in required_packages:
             try:
@@ -91,7 +90,20 @@ class FlowerRecognizer:
         
         使用ResNet50作为基础模型，加载预训练权重用于花卉分类
         """
+        if self.model is not None and self.model_loaded:
+            return True
+            
         try:
+            # 确保在实际需要时才导入PyTorch
+            import torch
+            import torch.nn as nn
+            import torchvision.models as models
+            
+            self._torch_available = True
+            
+            # 设置设备（GPU如果可用，否则CPU）
+            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+            
             print("正在加载花卉识别模型...")
             # 加载预训练的ResNet50模型
             self.model = models.resnet50(pretrained=True)
@@ -135,6 +147,10 @@ class FlowerRecognizer:
         Returns:
             预处理后的张量
         """
+        # 导入PyTorch transforms
+        import torchvision.transforms as transforms
+        import torch
+        
         # 定义图像转换
         transform = transforms.Compose([
             transforms.Resize((224, 224)),
@@ -161,6 +177,9 @@ class FlowerRecognizer:
                 return None
         
         try:
+            # 导入PyTorch相关模块
+            import torch
+            
             print(f"正在识别图像: {os.path.basename(image_path)}")
             # 预处理图像
             image_tensor = self.preprocess_image(image_path)
@@ -241,11 +260,15 @@ class FlowerRecognizer:
         print(f"\n📷 开始处理图像: {os.path.basename(image_path)}")
         print("-" * 50)
         
-        # 识别花卉
-        recognition_result = self.recognize_flower(image_path)
-        
         # 获取EXIF信息
         exif_info = self.get_exif_info(image_path)
+        
+        # 确保先加载模型
+        if not self._torch_available:
+            self.load_model()
+        
+        # 识别花卉
+        recognition_result = self.recognize_flower(image_path)
         
         # 打印EXIF信息摘要
         if exif_info:
